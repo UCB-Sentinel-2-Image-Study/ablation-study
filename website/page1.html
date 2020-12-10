@@ -1,0 +1,39 @@
+<html>
+    <title>Irrigation Detection</title>
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+
+    <body id="bodyMain">
+        <script src="js/makeHeader.js"></script>
+
+        <h1>Background</h1>
+        <div class="card">
+            <h1>The Problem</h1>
+            <p>
+                The World Health Organization (WHO) and the United Nations (UN) claim that, as of 2019, 2.2 billion people are without safe drinking water services while 70% of
+                of the world's water is consumed by agriculture. Industrialized agriculture also bolsters global warming, which the WHO claims is the cause of 90% of natural disasters.
+                Since the agricultural industry controls such a large proportion of the world's fresh water supply, our team decided that attempting to tackle the issue of illegal
+                irrigation would help free up water supplies for the general populous and help alleviate some of the pressure that the agricultural industry is putting on our environment.
+            </p>
+            <p>
+                The first step we established for identifying illegal irrigation was identifying agricultural land. While we found several satellite image datasets that contained agricultural
+                plots, we couldn't find studies done on the datasets. As such, we decided to pivot our project to establishing baselines for the BigEarthNet dataset and publishing our
+                findings so other researchers could quickly learn about how to effectively use the dataset. We believe this will be an important study for future researchers because it will
+                act as a foundation to build on. With this study researchers won't have to waste time and money on storing unnecessary data and training models with unimportant features.
+            </p>
+        </div>
+        <div class="card" id="lastCard">
+            <h1>Ablation Study</h1>
+            <p>
+                In order to maintain consistent and informative results about the dataset, we decided to use the ablation study paradigm. Ablation studies, in the context of machine learning,
+                are often used to identify the important layers of machine learning models. The ablation paradigm consists of methodically removing layers in a model and recording learning
+                results to identify the importance and function of the various layers in a model. We applied the same paradigm to our study of the BigEarthNet dataset. Rather than
+                modifying our model, though, we methodically added features to our model and recorded the changes in performance. By using this ablation method, we were able to confidently
+                conclude which features we considered to be crucial to the learning process and could give insight as to what effect each feature has on the learning outcome.
+                We hope that, by using a strictly scientific way of determining feature importance and feature relationship, future researchers can be better informed about the BigEarthNet
+                dataset and therefore be more prepared and educated for their work.
+            </p>
+        </div>
+    </body>
+
+    <script src="js/page1.js"></script>
+</html>

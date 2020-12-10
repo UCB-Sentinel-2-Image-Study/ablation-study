@@ -1,0 +1,56 @@
+<html>
+    <title>Irrigation Detection</title>
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+
+    <body id="bodyMain">
+        <script src="js/makeHeader.js"></script>
+        
+        <h1>Data</h1>
+        <div class="card">
+            <h1>Data Origin</h1>
+            <p>
+                The BigEarthNet dataset consists of 590,326 GeoTIFF images that depict birds-eye views of plots of land. The satellite that produced these images was a Sentinel-2 satellite.
+                The images were taken between June 2017 and May 2018 and over Austria, Belgium, Finland, Ireland, Kosovo, Lithuania, Luxembourg, Portugal, Serbia, and Switzerland.
+                The images are non-overlapping and were labeled using the multiclass labels provided by the 2018 CORINE Land Cover database. BigEarthNet was created by the Remote
+                Sensing Image Analysis Group and the Database Systems and Information Management Group at the Technische Universität Berlin.
+            </p>
+            
+        </div>
+        <div class="card" id="lastCard">
+            <h1>Data Features</h1>
+            <div class="featureList">
+                <ul>
+                    <li>590,326 GeoTIFF Images</li>
+                    <li>
+                        Each Image Contains 12 Bands
+                        <ul>
+                            <li>B01: Coastal Aerosal</li>
+                            <li>B02: Blue</li>
+                            <li>B03: Green</li>
+                            <li>B04: Red</li>
+                            <li>B05: Vegetation Red Edge</li>
+                            <li>B06: Vegetation Red Edge</li>
+                            <li>B07: Vegetation Red Edge</li>
+                            <li>B08: Near Infrared Reflectance</li>
+                            <li>B09: Water Vapor</li>
+                            <li>B11: Short Wave Infrared</li>
+                            <li>B12: Short Wave Infrared</li>
+                            <li>B8A: Narrow Near Infrared Reflectance</li>
+                        </ul>
+                    </li>
+                    <li>Every Band is its own TIFF file</li>
+                    <li>
+                        Not every band is at the same resolution
+                        <ul>
+                            <li>60m: Coastal Aerosal (B01), Water Vapor (B09)</li>
+                            <li>20m: Vegetation Red Edge (B05, B06, B07), Short Wave Infrared (B11, B12), Narrow Near Infrared (B8A)</li>
+                            <li>10m: Blue (B02), Green (B03), Red (B04), Near Infrared Reflectance (B08)</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </body>
+    
+    <script src="js/page2.js"></script>
+</html>

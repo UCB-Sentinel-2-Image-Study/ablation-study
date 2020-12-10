@@ -1,0 +1,231 @@
+<html>
+    <title>Irrigation Detection</title>
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    
+
+    <body id="bodyMain">
+        <script src="js/makeHeader.js"></script>
+
+        <h1>Results</h1>
+        <div class="card">
+            <h1>Methods</h1>
+            <p>
+                To begin our study, we converted the labels in the BigEarthNet dataset to binary labels, Agricultural and Not Agricultural. This label indicates whether there is
+                agricultural land present in the image. We then established multiple steps where we trained a Keras implementation of the ResNet50 model on different combinations of
+                bands and tested the model's performance on predicting the labels of our test set images. For each experiment, we measured accuracy, precision, recall, and loss.
+                Once recorded, we proceeded to the next experiment.
+
+                <div class="disclaimer">
+                    *These experiments were run in Google Cloud Platform on a NVIDIA Tesla K80 GPU. We attempted to set up more powerful environments on other platforms, but we had issues
+                    with the various platforms not providing the hardware we needed to run these experiments. As such, only 4 epochs were run for each experiment, which should be taken into
+                    consideration when evaluating the results.
+                </div>
+            </p>
+        </div>
+        <div class="card">
+            <h1>Results</h1>
+            <p>
+                Our results are split into 3 phases. In phase 1, our leading hypothesis was that the Red, Blue, and Green bands would contain the most information and adding the remaining
+                bands would provide minor improvements to our performance measures.
+            </p>
+            <h2>
+                Phase 1
+            </h2>
+            <table>
+                <tr>
+                    <th class="tbl-header">Experiment No.</th>
+                    <th class="tbl-header">Bands</th>
+                    <th class="tbl-header">Hypothesis</th>
+                    <th class="tbl-header">Result</th>
+                    <th class="tbl-header">Accuracy</th>
+                    <th class="tbl-header">Precision</th>
+                    <th class="tbl-header">Recall</th>
+                    <th class="tbl-header">Loss</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>RGB (B02, B03, B04)</td>
+                    <td>Baseline</td>
+                    <td>Baseline</td>
+                    <td>0.7745</td>
+                    <td>0.7313</td>
+                    <td>0.8542</td>
+                    <td>0.4758</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>RGB, All IR (B08, B8A, B11, B12)</td>
+                    <td>Improvement</td>
+                    <td>Improvement</td>
+                    <td>0.8176</td>
+                    <td>0.7721</td>
+                    <td>0.8913</td>
+                    <td>0.4371</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>RGB, Coastal Aerosol (B01)</td>
+                    <td>Improvement</td>
+                    <td>Improvement</td>
+                    <td>0.8193</td>
+                    <td>0.8004</td>
+                    <td>0.8417</td>
+                    <td>0.3910</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>RGB, Vegetation Red Edge (B05, B06, B07)</td>
+                    <td>Improvement</td>
+                    <td>Improvement</td>
+                    <td>0.8258</td>
+                    <td>0.7798</td>
+                    <td>0.8993</td>
+                    <td>0.3940</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>RGB, Water Vapor (B09)</td>
+                    <td>Improvement</td>
+                    <td>Improvement</td>
+                    <td>0.8104</td>
+                    <td>0.7587</td>
+                    <td>0.8997</td>
+                    <td>0.4342</td>
+                </tr>
+            </table>
+            <p>
+                After completing Phase 1, we identified Vegetation Red Edge and Coastal Aerosol as our auxiliary features that provided the most information to the learning process.
+                Going into phase 2, we were interested in seeing how modifying this set of features would affect our performance.
+            </p>
+            <h2>
+                Phase 2
+            </h2>
+            <table>
+                <tr>
+                    <th class="tbl-header">Experiment No.</th>
+                    <th class="tbl-header">Bands</th>
+                    <th class="tbl-header">Hypothesis</th>
+                    <th class="tbl-header">Result</th>
+                    <th class="tbl-header">Accuracy</th>
+                    <th class="tbl-header">Precision</th>
+                    <th class="tbl-header">Recall</th>
+                    <th class="tbl-header">Loss</th>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>RGB, Coastal Aerosol, Vegetation Red Edge</td>
+                    <td>Baseline</td>
+                    <td>Baseline</td>
+                    <td>0.8260</td>
+                    <td>0.8433</td>
+                    <td>0.7932</td>
+                    <td>0.3790</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>Coastal Aerosol, Vegetation Red Edge</td>
+                    <td>Worsen</td>
+                    <td>Unchanged</td>
+                    <td>0.8272</td>
+                    <td>0.8366</td>
+                    <td>0.8029</td>
+                    <td>0.3751</td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>Vegetation Red Edge</td>
+                    <td>Worsen</td>
+                    <td>Worse</td>
+                    <td>0.8111</td>
+                    <td>0.7822</td>
+                    <td>0.8501</td>
+                    <td>0.3998</td>
+                </tr>
+            </table>
+            <p>
+                Phase 2 clued us in on the fact that Vegetation Red Edge and Coastal Aerosol are the key players in our predictions and that RGB actually does very little for us.
+                We lost no performance by removing RGB and it actually cut our training time by 80% by cutting the RGB channels. This was a huge step for us in understanding the
+                BigEarthNet dataset. We also established that Vegetation Red Edge bands are core to the prediction process. We will use this observation for Phase 3 where
+                we will use feature combinations based around the Vegetation Red Edge bands.
+            </p>
+            <h2>
+                Phase 3
+            </h2>
+            <table>
+                <tr>
+                    <th class="tbl-header">Experiment No.</th>
+                    <th class="tbl-header">Bands</th>
+                    <th class="tbl-header">Hypothesis</th>
+                    <th class="tbl-header">Result</th>
+                    <th class="tbl-header">Accuracy</th>
+                    <th class="tbl-header">Precision</th>
+                    <th class="tbl-header">Recall</th>
+                    <th class="tbl-header">Loss</th>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>Vegetation Red Edge, Water Vapor</td>
+                    <td>Improvement</td>
+                    <td>Worse</td>
+                    <td>0.7708</td>
+                    <td>0.7633</td>
+                    <td>0.7693</td>
+                    <td>0.4638</td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>Vegetation Red Edge, All IR</td>
+                    <td>Improvement</td>
+                    <td>Improvement</td>
+                    <td>0.8419</td>
+                    <td>0.8147</td>
+                    <td>0.8755</td>
+                    <td>0.3481</td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>Vegetation Red Edge, NIR, Narrow NIR</td>
+                    <td>Worsen</td>
+                    <td>Worse</td>
+                    <td>0.8068</td>
+                    <td>0.7670</td>
+                    <td>0.8683</td>
+                    <td>0.4413</td>
+                </tr>
+                <tr>
+                    <td>12</td>
+                    <td>Vegetation Red Edge, SWIR</td>
+                    <td>Worsen</td>
+                    <td>Worse</td>
+                    <td>0.8379</td>
+                    <td>0.8041</td>
+                    <td>0.8834</td>
+                    <td>0.3648</td>
+                </tr>
+                <tr>
+                    <td>13</td>
+                    <td>Vegetation Red Edge, All IR, Coastal Aerosol</td>
+                    <td>Improvement</td>
+                    <td>Worse</td>
+                    <td>0.8258</td>
+                    <td>0.8226</td>
+                    <td>0.8202</td>
+                    <td>0.3750</td>
+                </tr>
+            </table>
+        </div>
+        <div class="card" id="lastCard">
+            <h1>Conclusion</h1>
+            <p>
+                By the end of Phase 3 we determined our best predictions to be done by the model trained on the Vegetation Red Edge bands and all the infrared bands.
+                We also noted that there was not much of a performance loss by only including the SWIR bands with the Vegetation Red Edge. With these results, we hope to
+                inform future researchers of the effects each feature has on model performance. We want our findings to act as a foundation to save researchers time and money, so they can
+                prioritize the correct features and expedite their studies. We believe further work on the BigEarthNet dataset can lead to environmental and social change that
+                could battle global warming and help equalize the share of water between people and industry.
+            </p>
+        </div>
+        
+    </body>
+    
+    <script src="js/page3.js"></script>
+</html>

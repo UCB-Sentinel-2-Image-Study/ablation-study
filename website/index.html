@@ -1,0 +1,91 @@
+<html>
+  <title>Irrigation Detection</title>
+  <link rel="stylesheet" type="text/css" href="css/main.css" />
+
+  <body id="bodyMain">
+    <script src="js/makeHeader.js"></script>
+
+    <h1>Overview</h1>
+    <div class="card">
+      <h1>The Project</h1>
+        <p>
+          Irrigation uses 70% of the world’s fresh water and large parts of the planet are already suffering water scarcity, 
+          from California’s Central Valley, the Mid-West, and including large portions of Asia, Southern Europe, and Australia.
+          Due to the impact irrigation has on our planet, our team is interested in tackling the issue of agricultural irrigation detection 
+          and irrigation fraud detection. As we began researching the topic and the solutions that exist, we identified BigEarthNet as a 
+          promising dataset for our project. Unfortunately, we couldn't locate many articles that discussed the dataset and the effects 
+          the various features have on machine learning models. Our team decided to fill that void and perform an ablation study
+          on the BigEarthNet dataset to help future researchers quickly identify which features have the most impact on machine learning models.
+        </p>
+    </div>
+    <div class="card">
+      <h1>Data</h1>
+        <p>
+          "BigEarthNet is a new large-scale Sentinel-2 benchmark archive, consisting of 590,326 Sentinel-2 image patches. To construct 
+          BigEarthNet, 125 Sentinel-2 tiles acquired between June 2017 and May 2018 over the 10 countries (Austria, Belgium, Finland, Ireland, 
+          Kosovo, Lithuania, Luxembourg, Portugal, Serbia, Switzerland) of Europe were initially selected. All the tiles were atmospherically 
+          corrected by the Sentinel-2 Level 2A product generation and formatting tool (sen2cor). Then, they were divided into 590,326 
+          non-overlapping image patches. Each image patch was annotated by the multiple land-cover classes (i.e., multi-labels) that were 
+          provided from the CORINE Land Cover database of the year 2018 (CLC 2018)" - <a href="http://bigearth.net/"> bigearth.net </a>
+        </p>
+        <p>
+          BigEarthNet is 66 GB (compressed). Each folder in the dataset consists of an image tile. In each folder, there are GeoTiff files for
+          each band of the image (R, G, B, NIR, etc.). The bands are at differing resolutions, so to stack the bands to recreate the original image,
+          image modification methods must be used.
+        </p>
+    </div>
+    <div class="card">
+      <h1>Results</h1>
+      <p>
+        We used ResNet50 to identify agricultural land from BigEarthNet after converting the BigEarthNet labels to binary labels (Agricultural / Not Agricultural).
+        Unfortunately, we ended up being more hardware restricted than we had anticipated. As such, we were only able to run 4 epochs per experiment, so there could
+        still be noise in our results.
+      </p>
+      <table>
+        <tr>
+          <th class="tbl-header">Bands</th>
+          <th class="tbl-header">Accuracy</th>
+          <th class="tbl-header">Loss</th>
+        </tr>
+        <tr>
+          <td>B02, B03, B04 (RGB)</td>
+          <td>0.7868</td>
+          <td>0.4210</td>
+        </tr>
+        <tr>
+          <td>All Bands</td>
+          <td>0.8198</td>
+          <td>0.3877</td>
+        </tr>
+        <tr>
+          <td>B01, B02, B03, B04, B05, B06, B07 (RGB, Coastal Aerosol, Vegetation Red Edge)</td>
+          <td>0.8260</td>
+          <td>0.3790</td>
+        </tr>
+        <tr>
+          <td>B01, B05, B06, B07 (Coastal Aerosol, Vegetation Red Edge)</td>
+          <td>0.8272</td>
+          <td>0.3751</td>
+        </tr>
+        <tr>
+          <td>B05, B06, B07, B11, B12, B8A (Vegetation Red Edge, SWIR, Narrow NIR)</td>
+          <td>0.8419</td>
+          <td>0.3481</td>
+        </tr>
+      </table>
+    </div>
+    <div class="card" id="lastCard">
+      <h1>Conclusion</h1>
+        <p>
+          Through our study of the BigEarthNet dataset, we found that the most influential bands, when predicting agricultural land, were the Vegetation Red Edge bands. Our model
+          that performed the best on the test dataset was the model that was trained on Vegetation Red Edge(B05, B06, B07) and all the infrared bands (B08, B8A, B11, B12).
+          Our initial hypothesis that the RGB channels would be the most important was proven false. We hope that our study of the BigEarthNet dataset will act as a foundation to
+          help researchers better tackle illegal irrigation identification. Reducing illegal irrigation should help mitigate the damage irrigation has on our environment as well as
+          give a larger water supply to the general populous, especially those currently without access to fresh water.
+        </p>
+    </div>
+  </body>
+
+  <script type="module" src="js/util.js"></script>
+  <script type="module" src="js/homepage.js"></script>
+</html>
