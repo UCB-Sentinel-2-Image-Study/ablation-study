@@ -53,7 +53,14 @@ list.appendChild(menuItem4);
 var menuItem5 = document.createElement("li");
 var menuLink5 = document.createElement("a");
 menuLink5.setAttribute("href", "page4.html");
-menuLink5.appendChild(document.createTextNode("Appendix"));
+menuLink5.appendChild(document.createTextNode("Team"));
+menuItem5.appendChild(menuLink5);
+list.appendChild(menuItem5);
+
+var menuItem5 = document.createElement("li");
+var menuLink5 = document.createElement("a");
+menuLink5.setAttribute("href", "https://github.com/UCB-Sentinel-2-Image-Study/ablation-study");
+menuLink5.appendChild(document.createTextNode("GitHub"));
 menuItem5.appendChild(menuLink5);
 list.appendChild(menuItem5);
 
