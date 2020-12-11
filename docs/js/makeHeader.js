@@ -10,7 +10,7 @@ homeLink.setAttribute("href", "index.html");
 imgContainer.appendChild(homeLink);
 
 var bannerImg = document.createElement("img");
-bannerImg.setAttribute("src", "imgs/header.png");
+bannerImg.setAttribute("src", "imgs/header.jpg");
 homeLink.appendChild(bannerImg);
 
 var bannerText = document.createElement("div");
