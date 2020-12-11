@@ -1,5 +1,5 @@
 var title = document.createElement("title");
-title.appendChild(document.createTextNode("Irrigation Detection"));
+title.appendChild(document.createTextNode("Irrigation Detection Ablation Study"));
 var header = document.createElement("header");
 var imgContainer = document.createElement("div");
 imgContainer.classList.add("headerImgContainer");
@@ -10,12 +10,12 @@ homeLink.setAttribute("href", "index.html");
 imgContainer.appendChild(homeLink);
 
 var bannerImg = document.createElement("img");
-bannerImg.setAttribute("src", "imgs/wheat-header3.jpeg");
+bannerImg.setAttribute("src", "imgs/header.png");
 homeLink.appendChild(bannerImg);
 
 var bannerText = document.createElement("div");
 bannerText.classList.add("bannerText");
-bannerText.appendChild(document.createTextNode("Irrigation Detection"));
+bannerText.appendChild(document.createTextNode("UC Berkeley Irrigation Detection Ablation Study"));
 homeLink.appendChild(bannerText);
 
 var menu = document.createElement("nav");
